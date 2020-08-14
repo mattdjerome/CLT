@@ -11,7 +11,7 @@ options=("Renew Automated Device Enrollment" "Monitor Network Traffic" "Deactiva
 select opt in "${options[@]}"
 do
 case $opt in
-        "Run Jamf Enrollment")
+        "Renew Automated Device Enrollment")
             /usr/bin/proflies -renew type enrollment
             ;;
         "Monitor Network Traffic")
