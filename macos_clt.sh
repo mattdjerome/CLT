@@ -7,7 +7,7 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 echo "Please choose a command:"
-options=("Run Jamf Enrollment" "Monitor Network Traffic" "Deactivate Software Updates" "Quit")
+options=("Renew Automated Device Enrollment" "Monitor Network Traffic" "Deactivate Software Updates" "Quit")
 select opt in "${options[@]}"
 do
 case $opt in
