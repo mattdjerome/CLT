@@ -7,9 +7,10 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 echo "Please choose a command:"
-options=("Run Jamf Enrollment" "Monitor Network Traffic" "Deactivate Software Updates")
-select opt in "${options[@]}" "Quit"; do
-case $options in
+options=("Run Jamf Enrollment" "Monitor Network Traffic" "Deactivate Software Updates" "Quit")
+select opt in "${options[@]}"
+do
+case $opt in
         "Run Jamf Enrollment")
             /usr/bin/proflies -renew type enrollment
             ;;
