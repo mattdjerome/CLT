@@ -1,5 +1,10 @@
 #!/bin/bash
+# macOS Command Line Tool
+# written and maintained by Matt Jerome - August 2020
+# Provides a selection menu for commonly used macOS commands
 
+
+# Downloads and installs an Applications
 #Check if a script is being run using sudo
 if [[ $EUID -ne 0 ]]; then
    echo "This script must be run as root. Re-launch using the sudo command." 
