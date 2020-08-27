@@ -1,10 +1,10 @@
 #!/bin/bash
 
 #Check if a script is being run using sudo
-# if [[ $EUID -ne 0 ]]; then
-#    echo "This script must be run as root. Re-launch using the sudo command." 
-#    exit 1
-# fi
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root. Re-launch using the sudo command." 
+   exit 1
+fi
 
 #Check if Log File exists
 function LOG {
@@ -27,7 +27,7 @@ else
 fi
 #trying it out using applescript dropdown
 function category {
-cat_sel=$(osascript -e 'choose from list {"Show Hidden Files", "Hide Hidden Files", "list folder contents", "Jamf Inventory", "Jamf Policy-Check", "Jamf Configuration Profile Check", "Run ADP Enrollment" } with title "Commands" with prompt "Please choose"')
+cat_sel=$(osascript -e 'choose from list {"Show Hidden Files", "Hide Hidden Files", "list folder contents", "Jamf Inventory", "Jamf Policy-Check", "Jamf Configuration Profile Check", "Run ADE" } with title "Commands" with prompt "Please choose"')
 echo "The selected category is $cat_sel"
 }
 category
@@ -36,11 +36,33 @@ case $cat_sel in
 	"Show Hidden Files")
 		defaults write com.apple.finder AppleShowAllFiles -bool TRUE >> $FILE
 		killall -KILL Finder >> $FILE
-		LOG >> $FILE
 		;;
 	"list folder contents" )
 		ls
-		LOG >> $FILE
+		;;
+	"Hide Hidden Files")
+		defaults write com.apple.finder AppleShowAllFiles -bool FALSE >> $FILE
+		killall -KILL Finder >> $FILE
+		;;
+	"Jamf Inventory")
+		sudo jamf recon >> $FILE
+		;;
+	"Jamf Policy-Check")
+		sudo jamf policy >> $FILE
+		;;
+	"Jamf Configuration Profile Check")
+	    sudo jamf manage >> $FILE
+		;;
+	"Run ADE")
+		sudo profiles renew -type enrollment >> $FILE
 		;;
 esac
+
+if [[ $? -gt 0 ]]; then
+	echo "There was an error, check the logs"
+else
+	echo "Command successful"
+fi
+
+
 
