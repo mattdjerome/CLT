@@ -32,11 +32,13 @@ else
 fi
 #trying it out using applescript dropdown
 function category {
-cat_sel=$(osascript -e 'choose from list {"Show Hidden Files", "Hide Hidden Files", "list folder contents", "Jamf Inventory", "Jamf Policy-Check", "Jamf Configuration Profile Check", "Run ADE" } with title "Commands" with prompt "Please choose"')
-echo "The selected category is $cat_sel"
+cat_sel=$(osascript -e 'choose from list {"Show Hidden Files", "Hide Hidden Files", "list folder contents", "Jamf Inventory", "Jamf Policy-Check", "Jamf Configuration Profile Check", "Run ADE", "Exit" } with title "Commands" with prompt "Please choose a command"')
+echo "The selected command is $cat_sel"
 }
-category
 
+
+category
+while [[ $cat_sel != "Exit" ]]; do
 case $cat_sel in
 	"Show Hidden Files")
 		defaults write com.apple.finder AppleShowAllFiles -bool TRUE >> $FILE
@@ -68,6 +70,8 @@ if [[ $? -gt 0 ]]; then
 else
 	echo "Command successful"
 fi
+category
+done
 
 
 
